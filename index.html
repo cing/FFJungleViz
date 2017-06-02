@@ -12,6 +12,13 @@
     </style>
 </head>
 <body>
+  <!-- Table to hold the Divs -->
+<table border="0" cellpadding="10" style="overflow-y: scroll;">
+     <tr>
+         <td><div id="table_container" class="csvTable"></div></td>
+         <td><div id="map_container"></div></td>
+     </tr>
+ </table>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
 //
@@ -557,12 +564,46 @@ var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.y, d.x]; });
 
 
-var svg = d3.select("body").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter)
-  .append("g")
-    .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+//Create SVG element
+var svg = d3.select("#map_container")
+            .append("svg")
+            .attr("width", diameter)
+            .attr("height", diameter)
+            .append("g")
+            .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
+            var columns = ["name", "title"];
+            var table = d3.select("#table_container").append("table"),
+            thead = table.append("thead"),
+            tbody = table.append("tbody");
+
+             // append the header row
+             thead.append("tr")
+                   .selectAll("th")
+                   .data(columns)
+                   .enter()
+                   .append("th")
+                   .text(function (column) { return column; });
+
+             // create a row for each object in the data
+            var rows = tbody.selectAll("tr")
+                 .data(data.inner)
+                 .enter()
+                 .append("tr");
+
+            // create a cell in each row for each column
+            var cells = rows.selectAll("td")
+                .data(function (row) {
+                    //return { column: "name", value: "poo" }
+                    return columns.map(function (column) {
+                      console.log(row);
+                      return { column: column, value: row[column] };
+                    });
+                })
+                .enter()
+                .append("td")
+                .text(function (d) { return d.value; }
+              )
 
 // links
 var link = svg.append('g').attr('class', 'links').selectAll(".link")
