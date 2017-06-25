@@ -584,7 +584,11 @@ var svg = d3.select("#map_container")
             .append("g")
             .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-            var columns = ["name", "title"];
+            // Define column headers and datatypes
+            var columns = [
+            { head: 'Citation', cl:'name', html: function(row) { return "<a href=\"" + row.url + "\">" + row.name + "</a>"; } },
+            { head: 'Title', cl:'title', html: function(row) { return row.title; } } ];
+
             var table = d3.select("#table_container").append("table"),
             thead = table.append("thead"),
             tbody = table.append("tbody");
@@ -595,27 +599,27 @@ var svg = d3.select("#map_container")
                    .data(columns)
                    .enter()
                    .append("th")
-                   .text(function (column) { return column; });
+                   .attr('class', function(f) { return f.cl })
+                   .text(function(f) { return f.head })
 
-             // create a row for each object in the data
-            var rows = tbody.selectAll("tr")
-                 .data(data.inner)
-                 .enter()
-                 .append("tr");
-
-            // create a cell in each row for each column
-            var cells = rows.selectAll("td")
-                .data(function (row) {
-                    //return { column: "name", value: "poo" }
-                    return columns.map(function (column) {
-                      console.log(row);
-                      return { column: column, value: row[column] };
+             table.append('tbody')
+                .selectAll('tr')
+                .data(data.inner).enter()
+                .append('tr')
+                .selectAll('td')
+                .data(function(row, i) {
+                    // evaluate column objects against the current row
+                    return columns.map(function(c) {
+                        var cell = {};
+                        d3.keys(c).forEach(function(k) {
+                            cell[k] = typeof c[k] == 'function' ? c[k](row,i) : c[k];
+                        });
+                        return cell;
                     });
-                })
-                .enter()
-                .append("td")
-                .text(function (d) { return d.value; }
-              )
+                }).enter()
+                .append('td')
+                .html(function(f) { return f.html })
+                .attr('class', function(f) { return f.cl });
 
 // links
 var link = svg.append('g').attr('class', 'links').selectAll(".link")
