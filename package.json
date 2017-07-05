@@ -1,0 +1,34 @@
+{
+  "name": "force-field",
+  "version": "1.0.0",
+  "description": "There are now numerous force fields under constant revision for biomolecular simulation. Inspired by [this collection of papers on the Martini website](http://www.cgmartini.nl/index.php/blog/265-comparingforcefields), I developed this visualization to assist in disseminating the literature that contains side-by-side comparisons of 2 or more force fields.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cing/FFJungleViz.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cing/FFJungleViz/issues"
+  },
+  "homepage": "https://github.com/cing/FFJungleViz#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^7.3.0",
+    "browser-sync": "^2.18.12",
+    "browserify": "^14.4.0",
+    "concat": "^1.0.3",
+    "connect-history-api-fallback": "^1.3.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^3.1.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
